@@ -114,24 +114,13 @@
     
             function compileHpPhotos(){
                 let id_folder = trans_id(id)
-                let photoObject = {
-                    imei: {uploaded: true},
-                    penggadai: {uploaded: true},
-                    box: {uploaded: true},
-                    charger: {uploaded: true},
-                    tampak_depan: {uploaded: true},
-                    tampak_belakang: {uploaded: true},
-                    tampak_kiri: {uploaded: true},
-                    tampak_kanan: {uploaded: true}
-                }
-                if(outputTransJSON[id]){
-                    let contentList = fs.readdirSync(progressPhotoPath+'/'+id_folder)
-                    let list = Object.keys(photoObject)
-                    list.forEach((value) => {
-                        if(contentList.indexOf(`${value}.jpg`) !== -1){
-                            photoObject[value].uploaded = true
-                        }else{
-                            photoObject[value].uploaded = false
+                let folderList = fs.readdirSync(progressPhotoPath)
+                let photoObject = {}
+                if(folderList.indexOf(id_folder) !== -1){
+                    let contentList = fs.readdirSync(progressPhotoPath+'/'+id_folder).split('.').filter((value) => value[1] === 'jpg')
+                    contentList.forEach((value) => {
+                        photoObject[value] = {
+                            uploaded : true
                         }
                     })
                 }
