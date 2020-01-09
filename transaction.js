@@ -6,6 +6,9 @@
         const dataPath = './api/data/transactions.json'
         const agenPath = './api/data/output-agen.json'
         const customerPath = './api/data/output-customer.json'
+        const outputTransPath = './api/data/output-transaction.json'
+        const progressPhotoPath = './api/data/newMigrationTrans'
+
         const jsonReader = require('jsonfile')
         const Promise = require('bluebird')
         const moment = require('moment')
@@ -16,6 +19,7 @@
         let data = await jsonReader.readFile(dataPath)
         let agenJSON = await jsonReader.readFile(agenPath)
         let customerJSON = await jsonReader.readFile(customerPath)
+        let outputTransJSON = await jsonReader.readFile(outputTransPath)
         let platform_rate = null
 
         function getGeneralForm() {
@@ -109,7 +113,8 @@
             }
     
             function compileHpPhotos(){
-                return {
+                let id_folder = trans_id(id)
+                let photoObject = {
                     imei: {uploaded: true},
                     penggadai: {uploaded: true},
                     box: {uploaded: true},
@@ -119,6 +124,18 @@
                     tampak_kiri: {uploaded: true},
                     tampak_kanan: {uploaded: true}
                 }
+                if(outputTransJSON[id]){
+                    let contentList = fs.readdirSync(progressPhotoPath+'/'+id_folder)
+                    let list = Object.keys(photoObject)
+                    list.forEach((value) => {
+                        if(contentList.indexOf(`${value}.jpg`) !== -1){
+                            photoObject[value].uploaded = true
+                        }else{
+                            photoObject[value].uploaded = false
+                        }
+                    })
+                }
+                return photoObject              
             }
     
             function compileHpConditions(){
