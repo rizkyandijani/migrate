@@ -14,7 +14,7 @@
     "bluebird": "^3.7.2",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jsonfile": "^5.0.0",
     "moment": "^2.24.0",
     "ncp": "^2.0.0",
